@@ -46,8 +46,10 @@ class MusicDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        player?.pause()
-        player = nil
+        if player != nil {
+            player?.pause()
+            player = nil
+        }
     }
     
     // MARK: Setup UI
@@ -89,7 +91,7 @@ class MusicDetailViewController: UIViewController {
             let playerItem = AVPlayerItem(url: url)
             self.player = AVPlayer(playerItem: playerItem)
             self.player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main, using: { (time) in
-                if self.player!.currentItem?.status == .readyToPlay {
+                if self.player?.currentItem?.status == .readyToPlay {
                     self.updateTime()
                 }
             })
